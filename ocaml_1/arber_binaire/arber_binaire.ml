@@ -1,5 +1,5 @@
 
-(* les arbres binaires*)
+(* les arbres binaires
 
 structure donnes lineaires / sequentielles 
 tableau access a un element a (O(1)):
@@ -95,13 +95,139 @@ ARB : de hetuer h
     - add :  ajouter d'un element en O(h)
     - del : supression d;un element en O(h)
 
-=======
-creation d'un arbre binaire en Ocaml : 
+=================================================================
+=================================================================
 
-type ('a , 'b) arbre =
-    | Fuille of  
-    | 
 
-type 'v hashtable 
+creation d'un table de hachage en Ocaml : 
+*)
+ 
 
-    
+type 'v hashtable = (string * 'v) list array ;;
+let create m = if m <= 0 then invalid_arg "create"; Array.make m [] ;;
+create 10 ;;
+   
+ (*h(s0s1...s_n-1) = sum(code(s_i) * 10^(i))   0 <= i < n*)
+
+ let hash k = 
+   let n = String.length k and  constant = 32 in 
+   let rec hash h i = 
+    if i = n then h else hash (constant*h + Char.code k.[i]) (i+1) in 
+    hash 0 0 ;;
+  
+hash "hello";;
+(*# - : int = 99162322*)
+
+let bucket (h: 'v hashtable ) (k: string ) : int =
+   let i = (hash k) land max_int in (* on garantit i > = 0*)
+   i mod (Array.length h) 
+
+let put (h: 'v hashtable) (k: string) (v: 'v)  : unit = 
+    let rec update b = match b with 
+        | [] -> [k,v]
+        | (k' , _) :: b when k = k' -> (k,v) :: b 
+        | e :: b -> e :: update b in let i = bucket h k in h.(i) <- update h.(i) ;;
+
+let contains (h : 'v hashtable) (k : string) : bool = 
+    let rec trouver b = match b with 
+        | [] -> false 
+        | (k',_) :: b when k = k' -> true 
+        | _ :: b -> trouver b in 
+    let i = bucket h k in trouver h.(i) ;;
+
+let get (h: 'v hashtable) (k: string) : 'v  = 
+    let rec trouver b = match b with 
+        | [] -> raise Not_found
+        | (k',v) :: b ->  if k = k'
+               then v 
+              else trouver b in trouver h.(bucket h k )
+            ;;
+
+hash "m";; 
+hash "fig."
+hash "l'"
+hash "je"
+hash "ressens"
+hash "pythons"
+hash "retiens"
+(*
+=================================================================
+=================================================================
+*)
+
+(* les arbres binaires
+n(E) = 0  : ensemble vide
+n(N(l,x,r)) = l + n(l) + n(r) : ensemble a plusieur elements
+
+hauteur 
+h(E) = -1
+h(N(l,x,r)) = 1 + max(h(l),h(r))
+propriete :
+t : arbre binaire ; n : nombre de noeuds ; h : hauteur
+h1 +1 <= n <= 2^(h+1) -1
+le nombre de sous-arbres vides de t est n+1;
+*)
+
+type 'a bintree =
+    | E          (* Fuille vide *)
+    | N of 'a bintree * 'a * 'a bintree (* sous-arbre de gauche*racine*droit *)
+
+let rec longueur (t: 'a bintree) : int =
+  match t with 
+     | E -> 0   (* vide *)
+     | N(l,_,r) -> 1 + longueur l + longueur r
+
+
+
+
+     (*perfect: construit un arbre binaire parfait
+         où chaque nœud est étiqueté par la hauteur*)
+let rec perfect (h : int) : int bintree =
+  if h = -1 then E
+  else N(perfect (h-1), h, perfect (h-1))
+
+let t = N(N(N(E,"C",E),"b",E),"A",N(E,"V",E)) ;;
+
+let rec preorder (t: 'a bintree) = match t with 
+  | E -> ()
+  | N(l,x,r) ->  print_string x ; preorder l ; preorder r;
+
+
+
+let rotate_right = function
+    | N (N (t1, ku, vu, t2), kv, vv, t3) -> N (t1, ku, vu, N (t2, kv, vv, t3))
+   | t -> t
+  
+let rotate_left = function
+    | N (t1, ku, vu, N (t2, kv, vv, t3)) -> N (N (t1, ku, vu, t2), kv, vv, t3)
+    | t -> t
+
+type color = Rouge | Black 
+
+type ('k , 'v) rbt = 
+    | E 
+    | N of color * ( 'k , 'v) rbt * 'k * 'v * ( 'k , 'v) rbt
+
+let empty : ('k , 'v) rbt = E
+
+let lbalance = function
+  | (B, N (R, N (R, t1, k1, v1, t2), k2, v2, t3), k3, v3, t4)
+  | (B, N (R, t1, k1, v1, N (R, t2, k2, v2, t3)), k3, v3, t4) ->
+            N (R, N (B, t1, k1, v1, t2), k2, v2, N (B, t3, k3, v3, t4))
+  | (c, l, k, v, r) -> N (c, l, k, v, r)
+let rbalance = function
+  | (B, t1, k1, v1, N (R, N (R, t2, k2, v2, t3), k3, v3, t4))
+  | (B, t1, k1, v1, N (R, t2, k2, v2, N (R, t3, k3, v3, t4))) ->
+        N (R, N (B, t1, k1, v1, t2), k2, v2, N (B, t3, k3, v3, t4))
+  | (c, l, k, v, r) -> N (c, l, k, v, r)
+let rec add (k: 'k) (v: 'v) (t: ('k, 'v) rbt) : ('k, 'v) rbt =
+    match t with
+        | E -> N (R, E, k, v, E)
+        | N (c, l, k', v', r) ->
+              if k < k' then lbalance (c, add k v l, k', v', r)
+              else if k > k' then rbalance (c, l, k', v', add k v r)
+              else N (c, l, k, v, r) (* on écrase la valeur *)
+let add (k: 'k) (v: 'v) (t:('k, 'v) rbt) :('k, 'v) rbt =
+      match add k v t with
+          | E -> assert false
+          | N (_, l, k', v', r) -> N (B, l, k', v', r)
