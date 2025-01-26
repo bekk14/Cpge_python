@@ -1,5 +1,10 @@
 {
     "ocaml.sandbox": {
         "kind": "global"
-    }
+    },
+    "python.testing.pytestArgs": [
+        "pythonFormation101"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }
