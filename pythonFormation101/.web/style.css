@@ -1,0 +1,224 @@
+/* Réinitialisation des marges et paddings par défaut */
+body, h1, h2, p, ul, li, form, input, button {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Styles généraux */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
+  /* background image */
+    background-image: url('./img/bg.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+background-attachment: fixed; 
+}
+
+
+/* En-tête */
+header {
+  background-color: #4CAF50;
+  padding: 10px 20px;
+ /* justify-content: space-between;*/
+  display: flex;
+  align-items: center;
+}
+
+header img {
+  height: 50px; /* Ajustez la hauteur du logo selon vos besoins */
+  margin-right: 20px; /* Espace entre le logo et le menu */
+}
+
+nav {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+ 
+}
+nav ul li {
+  margin: 0 15px;
+position: relative;
+ 
+}
+nav ul li a { 
+  display: block; /**/
+  padding: 10px 15px; /**/ 
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+ 
+
+/* Style pour le sous-menu */
+nav ul li ul.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+nav ul li ul.submenu li {
+  width: 200px;
+}
+
+nav ul li ul.submenu li a {
+  padding: 10px;
+  color: #333;
+}
+
+/* Afficher le sous-menu au survol */
+nav ul li:hover ul.submenu {
+  display: block;
+}
+
+/* Q3: Changement de couleur au survol */
+nav ul li ul li:hover a {
+  color: green; /* Changement de couleur au survol */
+  text-decoration: underline; /* Soulignement au survol */
+}
+nav ul li:hover a {
+  color: orange; 
+  text-decoration: underline; 
+} 
+/* Section principale */
+main {
+  padding: 20px 20px 100px 20px;
+  max-width: 800px;
+  margin: 20px auto;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulaire */
+.form-section {
+  margin-bottom: 30px;
+}
+form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+form button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+form button:hover {
+  background-color: #45a049;
+}
+
+/* Section d'informations */
+.info-section {
+  text-align: center;
+ /* margin-top: 20px;*/
+  padding: 20px;
+background-color: #f9f9f9;
+}
+.info-section h2 {
+  color: #4CAF50;
+}
+
+
+/* Question 4:  Style pour le tableau */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+/* Pied de page */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    background: #333;
+    color: white;
+    margin: 0; 
+}
+
+
+
+
+/* Style pour la section Notre équipe */
+.team-section {
+  padding: 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.team-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.team-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+}
+
+.team-card img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.team-card h3 {
+  margin: 10px 0;
+  font-size: 1.2em;
+}
+
+.team-card p {
+  color: #666;
+}
