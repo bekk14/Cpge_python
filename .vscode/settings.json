@@ -1,6 +1,7 @@
 {
     "ocaml.sandbox": {
-        "kind": "global"
+        "kind": "custom",
+        "template": "$prog $args"
     },
     "python.testing.pytestArgs": [
         "pythonFormation101"
