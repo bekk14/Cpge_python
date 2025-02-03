@@ -42,7 +42,7 @@ let rec conct_listes = function
 (*arg1 arg2 list_anonyme sur lequelle 
 pattren matching est effectue                *)
 
-let  rec iterateur_sur_listes f b = function 
+let  rec iterateur_sur_listes f b = function    (* equivalent list_it*)
     | [] -> b (* b valeur de base // f fonction de deux args*)
     | x :: l -> f x (interateur_sur_listes f b l);;
            (* liste est traite element par element *)
@@ -53,4 +53,27 @@ let  rec iterateur_sur_listes f b = function
                                    une liste de type 'a 
                                    retourner une valeur de type 'b 
 *)
-let somme l = iterateur_sur_listes (+) 0 l ;;
+let somme2 l = iterateur_sur_listes (+) 0 l ;;
+
+
+let rec list_length = function 
+    | [] -> 0 
+    | x :: l -> 1 + list_length l ;;
+
+let list_length2 l = iterateur_sur_listes (function x -> function y -> 1 + y ) 0 l ;;
+
+(* aussi avec concatenation :
+la concatenation des listes, a l’aide d’une fonction auxiliaire devant
+qui recopie une liste devant une autre.
+*)
+let rec devant second_list  = function 
+      | [] -> second_list (* cas de base*) 
+      | x :: l -> x :: devant second_list  l  ;;
+
+let copy_devant l = iterateur_sur_listes ( function x -> function y -> x:: y) l;;
+devant [4;5;6;7] [1;2;3];;
+- : int list = [1; 2; 3; 4; 5; 6; 7]
+# copy_devant [4;5;6;7] [1;2;3];;
+- : int list = [1; 2; 3; 4; 5; 6; 7]
+
+
