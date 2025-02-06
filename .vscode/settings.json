@@ -1,10 +1,14 @@
 {
     "ocaml.sandbox": {
-        "kind": "global"
+        "kind": "custom",
+        "template": "$prog $args"
     },
     "python.testing.pytestArgs": [
         "pythonFormation101"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "githubPullRequests.ignoredPullRequestBranches": [
+        "main"
+    ]
 }
