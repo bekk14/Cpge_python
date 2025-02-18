@@ -1,33 +1,30 @@
-
 """
-\section*{Exercice 4}
-L'algorithme de l'exponentiation rapide, qui utilise le concept de diviser pour régner afin de calculer $x^n$. Cet algorithme repose sur les formules suivantes :
-\[
-x^n = 
-\begin{cases}
-1 & \text{si } n = 0 \\ 
-a^2 & \text{si } n \text{ est pair, avec } a = x^{n/2} \\ 
-x \cdot a^2 & \text{si } n \text{ est impair, avec } a = x^{(n-1)/2} 
-\end{cases}
-\]
-\begin{enum}
+exercice 4 : 
+Algorithme de l’exponentiation rapide, qui utilise 
+le concept de diviser pour régner afin de calculer x^n.
+Cet algorithme repose sur les formules suivantes :
+# x^n = match  n with 
+#       |  0 -> 1
+#       |  1 -> x
+#       |  n -> a^2 si n est pair, avec a = x^(n/2)
+#              x * a^2 si n est impair, avec a = x^((n−1)/2)
 
-  \item Écrire une fonction récursive \code{puissanceRec(x, n)} qui retourne la valeur $x^n$ en utilisant le principe de l'exponentiation rapide. 
-  \item Donner la complexité de cette fonction dans le pire des cas. 
-\end{enum}
+
+
+# a) Écrire une fonction récursive puissanceRec(x, n)
+#  qui retourne la valeur x^n .
+# b) Donner la complexité de cette fonction dans le pire des cas
 """
 
-# A : 
-def puissanceRec(x:int, n:int): # x^n 
-    if n == 0:
+def puissanceRec(x, n):
+    if n == 0:          # cas de base 
         return 1
-    elif n % 2 == 0:   # si n mod 2 
-        a = puissanceRec(x, n // 2)   # p(x,n//2) 
-        return a*a # puissanceRec(x, n // 2)  * puissanceRec(x, n // 2) 
-    else:
-        a = puissanceRec(x, (n - 1) // 2)
-        return x * a * a
    
-#   n/2 + n/2 +n ..... 1 
-# O(log(n))
-    
+    if n % 2 == 0:  
+        a = puissanceRec(x, n//2)
+        return a * a
+    else:
+        a = puissanceRec(x, (n-1)//2)
+        return x * a * a
+# la complexité de cette fonction est O(log(n)) dans le pire des cas
+# car on divise n par 2 à chaque appel récursif
